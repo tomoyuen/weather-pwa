@@ -1,23 +1,23 @@
 var dataCacheName = 'weatherData-v1';
 var cacheName = 'weatherPWA';
 var filesToCache = [
-  './',
-  './index.html',
-  './scripts/app.js',
-  './styles/inline.css',
-  './images/clear.png',
-  './images/cloudy-scattered-showers.png',
-  './images/cloudy.png',
-  './images/fog.png',
-  './images/ic_add_white_24px.svg',
-  './images/ic_refresh_white_24px.svg',
-  './images/partly-cloudy.png',
-  './images/rain.png',
-  './images/scattered-showers.png',
-  './images/sleet.png',
-  './images/snow.png',
-  './images/thunderstorm.png',
-  './images/wind.png'
+  '/',
+  '/index.html',
+  '/scripts/app.js',
+  '/styles/inline.css',
+  '/images/clear.png',
+  '/images/cloudy-scattered-showers.png',
+  '/images/cloudy.png',
+  '/images/fog.png',
+  '/images/ic_add_white_24px.svg',
+  '/images/ic_refresh_white_24px.svg',
+  '/images/partly-cloudy.png',
+  '/images/rain.png',
+  '/images/scattered-showers.png',
+  '/images/sleet.png',
+  '/images/snow.png',
+  '/images/thunderstorm.png',
+  '/images/wind.png'
 ];
 
 self.addEventListener('install', function(e) {
@@ -46,8 +46,8 @@ self.addEventListener('activate', function(e) {
 
 self.addEventListener('fetch', function(e) {
 	console.log('[serviceWorker] Fetch', e.request.url);
-	var dataUrl = 'https://query.yahooapis.com/v1/public/yql';
-	if (e.request.url.indexOf(dataUrl) > -1) {
+	var dataUrl = 'http://localhost:8887/';
+	if (e.request.url.indexOf(dataUrl) > ) {
 		e.respondWith(
 			fetch(e.request)
 				.then(function(response) {
