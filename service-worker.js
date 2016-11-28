@@ -1,5 +1,5 @@
+var dataCacheName = 'weatherData-v1';
 var cacheName = 'weatherPWA';
-var filesToCache = [];
 var filesToCache = [
   '/',
   '/index.html',
@@ -36,7 +36,7 @@ self.addEventListener('activate', function(e) {
 		caches.keys().then(function(keyList) {
 			return Promise.all(keyList.map(function(key) {
 				console.log('[serviceWorker] removing old cache', key);
-				if (key !== cacheName) {
+				if (key !== cacheName && key !== dataCacheName) {
 					return caches.delete(key);
 				}
 			}));
@@ -46,9 +46,24 @@ self.addEventListener('activate', function(e) {
 
 self.addEventListener('fetch', function(e) {
 	console.log('[serviceWorker] Fetch', e.request.url);
-	e.respondWith(
-		caches.match(e.request).then(function(response) {
-			return response || fetch(e.request);
-		})
-	);
+	var dataUrl = 'https://query.yahooapis.com/v1/public/yql';
+	if (e.request.url.indexOf(dataUrl) > -1) {
+		e.respondWith(
+			fetch(e.request)
+				.then(function(response) {
+					return caches.open(dataCacheName).then(function(cache) {
+						cache.put(e.request.url, response.clone());
+						console.log('[serviceWorker] Fetched & Cached Date');
+						return response;
+					});
+				})
+		);
+	} else {
+		e.respondWith(
+			caches.match(e.request).then(function(response) {
+				console.log('[serviceWorker] network Fetch');
+				return response || fetch(e.request);
+			})
+		);
+	}
 });

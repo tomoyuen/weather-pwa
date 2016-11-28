@@ -50,9 +50,14 @@
     var selected = select.options[select.selectedIndex];
     var key = selected.value;
     var label = selected.textContent;
-    // TODO init the app.selectedCities array here
+    // init the app.selectedCities array here
+    if (!app.selectedCities) {
+      app.selectedCities = [];
+    }
     app.getForecast(key, label);
-    // TODO push the selected city to the array and save here
+    // push the selected city to the array and save here
+    app.selectedCities.push({key: key, label: label});
+    app.saveSelectedCities();
     app.toggleAddDialog(false);
   });
 
@@ -165,8 +170,20 @@
     var statement = 'select * from weather.forecast where woeid=' + key;
     var url = 'https://query.yahooapis.com/v1/public/yql?format=json&q=' +
         statement;
-    // TODO add cache logic here
-
+    // add cache logic here
+    if ('caches' in window) {
+      caches.match(url).then(function(response) {
+        if (response) {
+          response.json().then(function updateFromCache(json) {
+            var results = json.query.results;
+            results.key = key;
+            results.label = label;
+            results.created = json.query.created;
+            app.updateForecastCard(results);
+          });
+        }
+      });
+    }
     // Fetch the latest data.
     var request = new XMLHttpRequest();
     request.onreadystatechange = function() {
@@ -196,7 +213,7 @@
     });
   };
 
-  // TODO add saveSelectedCities function here
+  // add saveSelectedCities function here
   app.saveSelectedCities = function() {
     var selectedCities = JSON.stringify(app.selectedCities);
     localStorage.selectedCities = selectedCities;
@@ -306,10 +323,10 @@
       }
     }
   };
-  // TODO uncomment line below to test app with fake data
+  // uncomment line below to test app with fake data
   // app.updateForecastCard(initialWeatherForecast);
 
-  // TODO add startup code here
+  // add startup code here
   app.selectedCities = localStorage.selectedCities;
   if (app.selectedCities) {
     app.selectedCities = JSON.parse(app.selectedCities);
@@ -325,7 +342,7 @@
     app.saveSelectedCities();
   }
 
-  // TODO add service worker code here
+  // add service worker code here
   if ('serviceWorker' in navigator) {
     navigator.serviceWorker
       .register('./service-worker.js')
