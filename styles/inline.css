@@ -99,7 +99,6 @@ body {
   .header .headerButton {
     width: 24px;
     height: 24px;
-    margin-right: 16px;
     text-indent: -30000px;
     overflow: hidden;
     opacity: 0.54;
@@ -109,6 +108,7 @@ body {
     outline: none;
     cursor: pointer; }
   .header #butRefresh {
+    margin-right: 16px;
     background: url(../images/ic_refresh_white_24px.svg) center center no-repeat; }
   .header #butAdd {
     background: url(../images/ic_add_white_24px.svg) center center no-repeat; }
@@ -279,6 +279,9 @@ body {
     -webkit-flex-grow: 1;
         -ms-flex-positive: 1;
             flex-grow: 1; }
+  .weather-forecast .current .description div:before {
+    display: block;
+  }
   .weather-forecast .current .sunset:before {
     content: "Sunset: ";
     color: #888; }
