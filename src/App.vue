@@ -10,13 +10,18 @@
 <script>
 import Header from './components/Header.vue';
 import Dialog from './components/Dialog.vue';
+import { mapActions } from 'vuex';
 
 export default {
   name: 'app',
   components: {
     Header,
     Dialog,
-  }
+  },
+  mounted() {
+    this.initApp();
+  },
+  methods: mapActions(['initApp'])
 }
 </script>
 

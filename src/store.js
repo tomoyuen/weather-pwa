@@ -141,12 +141,12 @@ export default new Vuex.Store({
       }
     },
     updateForecastCard(state, data) {
-      state.updateForecastCard = data;
+      state.activeCityData = data;
     }
   },
   actions: {
     getForecast({ commit }, label) {
-      const url = `http://tomo.club/forecast?location=${label}`;
+      const url = `http://tomo.club/api/forecast?location=${label}`;
 
       if ('caches' in window) {
         caches.match(url).then(response => {
