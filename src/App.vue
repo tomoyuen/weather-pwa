@@ -1,12 +1,12 @@
 <template>
   <div id="app">
     <Header />
-    <main>
+    <main class="main">
       <Card v-for="(item, index) in visibleCards"
         :key="index"
         :data="item" />
-      <Dialog />
     </main>
+    <Dialog />
   </div>
 </template>
 
@@ -47,10 +47,6 @@ body {
   font-display: optional;
   color: #444;
   -moz-osx-font-smoothing: grayscale;
-}
-
-html {
-  overflow: hidden;
 }
 
 body {
