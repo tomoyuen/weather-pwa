@@ -1,97 +1,38 @@
 <template>
-  <div class="card cardTemplate weather-forecast" hidden>
-    <div class="city-key" hidden></div>
-    <div class="card-last-updated" hidden></div>
-    <div class="location"></div>
-    <div class="date"></div>
-    <div class="description"></div>
+  <div class="card weather-forecast">
+    <div class="city-key" hidden>{{data.location.woeid}}</div>
+    <div class="card-last-updated" hidden>{{data.current_observation.pubDate}}</div>
+    <div class="location">{{`${data.location.city},${data.location.region}`}}</div>
+    <div class="date">{{new Date(data.current_observation.pubDate * 1000)}}</div>
+    <div class="description">{{data.current_observation.condition.text}}</div>
     <div class="current">
       <div class="visual">
-        <div class="icon"></div>
+        <div :class="['icon', getIconClass(data.current_observation.condition.code)]"></div>
         <div class="temperature">
-          <span class="value"></span><span class="scale">°F</span>
+          <span class="value">{{Math.round(data.current_observation.condition.temperature)}}</span><span class="scale">°F</span>
         </div>
       </div>
       <div class="description">
-        <div class="humidity"></div>
+        <div class="humidity">{{`${Math.round(data.current_observation.atmosphere.humidity)}%`}}</div>
         <div class="wind">
-          <span class="value"></span>
+          <span class="value">{{Math.round(data.current_observation.wind.speed)}}</span>
           <span class="scale">mph</span>
-          <span class="direction"></span>°
+          <span class="direction">{{data.current_observation.wind.direction}}</span>°
         </div>
-        <div class="sunrise"></div>
-        <div class="sunset"></div>
+        <div class="sunrise">{{data.current_observation.astronomy.sunrise}}</div>
+        <div class="sunset">{{data.current_observation.astronomy.sunset}}</div>
       </div>
     </div>
     <div class="future">
-      <div class="oneday">
-        <div class="date"></div>
-        <div class="icon"></div>
+      <div class="oneday" v-for="(item, index) in data.forecasts.slice(0, 7)"
+        :key="index">
+        <div class="date">{{item.day}}</div>
+        <div :class="['icon', getIconClass(item.code)]"></div>
         <div class="temp-high">
-          <span class="value"></span>°
+          <span class="value">{{item.high}}</span>°
         </div>
         <div class="temp-low">
-          <span class="value"></span>°
-        </div>
-      </div>
-      <div class="oneday">
-        <div class="date"></div>
-        <div class="icon"></div>
-        <div class="temp-high">
-          <span class="value"></span>°
-        </div>
-        <div class="temp-low">
-          <span class="value"></span>°
-        </div>
-      </div>
-      <div class="oneday">
-        <div class="date"></div>
-        <div class="icon"></div>
-        <div class="temp-high">
-          <span class="value"></span>°
-        </div>
-        <div class="temp-low">
-          <span class="value"></span>°
-        </div>
-      </div>
-      <div class="oneday">
-        <div class="date"></div>
-        <div class="icon"></div>
-        <div class="temp-high">
-          <span class="value"></span>°
-        </div>
-        <div class="temp-low">
-          <span class="value"></span>°
-        </div>
-      </div>
-      <div class="oneday">
-        <div class="date"></div>
-        <div class="icon"></div>
-        <div class="temp-high">
-          <span class="value"></span>°
-        </div>
-        <div class="temp-low">
-          <span class="value"></span>°
-        </div>
-      </div>
-      <div class="oneday">
-        <div class="date"></div>
-        <div class="icon"></div>
-        <div class="temp-high">
-          <span class="value"></span>°
-        </div>
-        <div class="temp-low">
-          <span class="value"></span>°
-        </div>
-      </div>
-      <div class="oneday">
-        <div class="date"></div>
-        <div class="icon"></div>
-        <div class="temp-high">
-          <span class="value"></span>°
-        </div>
-        <div class="temp-low">
-          <span class="value"></span>°
+          <span class="value">{{item.low}}</span>°
         </div>
       </div>
     </div>
@@ -100,78 +41,70 @@
 
 <script>
 export default {
-  data() {
-    return {
-      spinner: document.querySelector('.loader'),
-      cardTemplate: document.querySelector('.cardTemplate'),
-      container: document.querySelector('.main'),
-    };
+  props: {
+    data: Object,
   },
   methods: {
-    updateForecastCard({ state }, data) {
-      var dataLastUpdated = new Date(data.created);
-      var sunrise = data.channel.astronomy.sunrise;
-      var sunset = data.channel.astronomy.sunset;
-      var current = data.channel.item.condition;
-      var humidity = data.channel.atmosphere.humidity;
-      var wind = data.channel.wind;
-
-      var card = state.visibleCards[data.key];
-      if (!card) {
-        card = state.cardTemplate.cloneNode(true);
-        card.classList.remove('cardTemplate');
-        card.querySelector('.location').textContent = data.label;
-        card.removeAttribute('hidden');
-        state.container.appendChild(card);
-        state.visibleCards[data.key] = card;
-      }
-
-      // Verifies the data provide is newer than what's already visible
-      // on the card, if it's not bail, if it is, continue and update the
-      // time saved in the card
-      var cardLastUpdatedElem = card.querySelector('.card-last-updated');
-      var cardLastUpdated = cardLastUpdatedElem.textContent;
-      if (cardLastUpdated) {
-        cardLastUpdated = new Date(cardLastUpdated);
-        // Bail if the card has more recent data then the data
-        if (dataLastUpdated.getTime() < cardLastUpdated.getTime()) {
-          return;
-        }
-      }
-      cardLastUpdatedElem.textContent = data.created;
-
-      card.querySelector('.description').textContent = current.text;
-      card.querySelector('.date').textContent = current.date;
-      card.querySelector('.current .icon').classList.add(state.getIconClass(current.code));
-      card.querySelector('.current .temperature .value').textContent =
-        Math.round(current.temp);
-      card.querySelector('.current .sunrise').textContent = sunrise;
-      card.querySelector('.current .sunset').textContent = sunset;
-      card.querySelector('.current .humidity').textContent =
-        Math.round(humidity) + '%';
-      card.querySelector('.current .wind .value').textContent =
-        Math.round(wind.speed);
-      card.querySelector('.current .wind .direction').textContent = wind.direction;
-      var nextDays = card.querySelectorAll('.future .oneday');
-      var today = new Date();
-      today = today.getDay();
-      for (var i = 0; i < 7; i++) {
-        var nextDay = nextDays[i];
-        var daily = data.channel.item.forecast[i];
-        if (daily && nextDay) {
-          nextDay.querySelector('.date').textContent =
-            state.daysOfWeek[(i + today) % 7];
-          nextDay.querySelector('.icon').classList.add(state.getIconClass(daily.code));
-          nextDay.querySelector('.temp-high .value').textContent =
-            Math.round(daily.high);
-          nextDay.querySelector('.temp-low .value').textContent =
-            Math.round(daily.low);
-        }
-      }
-      if (state.isLoading) {
-        state.spinner.setAttribute('hidden', true);
-        state.container.removeAttribute('hidden');
-        state.isLoading = false;
+    getIconClass(weatherCode) {
+      weatherCode = parseInt(weatherCode);
+      switch (weatherCode) {
+        case 25: // cold
+        case 32: // sunny
+        case 33: // fair (night)
+        case 34: // fair (day)
+        case 36: // hot
+        case 3200: // not available
+          return 'clear-day';
+        case 0: // tornado
+        case 1: // tropical storm
+        case 2: // hurricane
+        case 6: // mixed rain and sleet
+        case 8: // freezing drizzle
+        case 9: // drizzle
+        case 10: // freezing rain
+        case 11: // showers
+        case 12: // showers
+        case 17: // hail
+        case 35: // mixed rain and hail
+        case 40: // scattered showers
+          return 'rain';
+        case 3: // severe thunderstorms
+        case 4: // thunderstorms
+        case 37: // isolated thunderstorms
+        case 38: // scattered thunderstorms
+        case 39: // scattered thunderstorms (not a typo)
+        case 45: // thundershowers
+        case 47: // isolated thundershowers
+          return 'thunderstorms';
+        case 5: // mixed rain and snow
+        case 7: // mixed snow and sleet
+        case 13: // snow flurries
+        case 14: // light snow showers
+        case 16: // snow
+        case 18: // sleet
+        case 41: // heavy snow
+        case 42: // scattered snow showers
+        case 43: // heavy snow
+        case 46: // snow showers
+          return 'snow';
+        case 15: // blowing snow
+        case 19: // dust
+        case 20: // foggy
+        case 21: // haze
+        case 22: // smoky
+          return 'fog';
+        case 24: // windy
+        case 23: // blustery
+          return 'windy';
+        case 26: // cloudy
+        case 27: // mostly cloudy (night)
+        case 28: // mostly cloudy (day)
+        case 31: // clear (night)
+          return 'cloudy';
+        case 29: // partly cloudy (night)
+        case 30: // partly cloudy (day)
+        case 44: // partly cloudy
+          return 'partly-cloudy-day';
       }
     },
   }

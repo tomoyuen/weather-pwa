@@ -2,6 +2,9 @@
   <div id="app">
     <Header />
     <main>
+      <Card v-for="(item, index) in visibleCards"
+        :key="index"
+        :data="item" />
       <Dialog />
     </main>
   </div>
@@ -10,18 +13,21 @@
 <script>
 import Header from './components/Header.vue';
 import Dialog from './components/Dialog.vue';
-import { mapActions } from 'vuex';
+import Card from './components/Card.vue';
+import { mapActions, mapState } from 'vuex';
 
 export default {
   name: 'app',
   components: {
     Header,
     Dialog,
+    Card,
   },
   mounted() {
     this.initApp();
   },
-  methods: mapActions(['initApp'])
+  methods: mapActions(['initApp']),
+  computed: mapState(['visibleCards']),
 }
 </script>
 

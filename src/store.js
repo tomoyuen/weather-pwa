@@ -123,9 +123,8 @@ const initialWeatherForecast = {
 export default new Vuex.Store({
   state: {
     isLoading: true,
-    visibleCards: {},
+    visibleCards: [],
     selectedCities: [],
-    activeCityData: {},
     addDialogVisible: false,
     daysOfWeek: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
   },
@@ -140,8 +139,8 @@ export default new Vuex.Store({
         state.selectedCities.push(data);
       }
     },
-    updateForecastCard(state, data) {
-      state.activeCityData = data;
+    addForecastCard(state, data) {
+      state.visibleCards.push(data);
     }
   },
   actions: {
@@ -152,7 +151,7 @@ export default new Vuex.Store({
         caches.match(url).then(response => {
           if (response) {
             response.json().then(json => {
-              commit('updateForecastCard', json);
+              commit('addForecastCard', json);
             });
           }
         });
@@ -162,9 +161,9 @@ export default new Vuex.Store({
       request.onreadystatechange = () => {
         if (request.readyState === XMLHttpRequest.DONE && request.status === 200) {
           const response = JSON.parse(request.response);
-          commit('updateForecastCard', response);
+          commit('addForecastCard', response);
         } else {
-          commit('updateForecastCard', initialWeatherForecast);
+          commit('addForecastCard', initialWeatherForecast);
         }
       };
 
@@ -186,7 +185,7 @@ export default new Vuex.Store({
           dispatch('getForecast', city.label );
         });
       } else {
-        commit('updateForecastCard', initialWeatherForecast);
+        commit('addForecastCard', initialWeatherForecast);
         commit('updateSelectedCities', [{
           key: initialWeatherForecast.location.woeid,
           label: initialWeatherForecast.location.city
