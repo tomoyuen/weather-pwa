@@ -123,10 +123,9 @@ const initialWeatherForecast = {
 export default new Vuex.Store({
   state: {
     isLoading: true,
-    visibleCards: [],
+    visibleCards: {},
     selectedCities: [],
-    addDialogVisible: false,
-    daysOfWeek: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+    addDialogVisible: false
   },
   mutations: {
     toggleAddDialog(state, visible) {
@@ -140,7 +139,8 @@ export default new Vuex.Store({
       }
     },
     addForecastCard(state, data) {
-      state.visibleCards.push(data);
+      state.visibleCards[data.location.woeid] = data;
+      state.isLoading = false;
     }
   },
   actions: {

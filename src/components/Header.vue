@@ -1,8 +1,8 @@
 <template>
   <header class="header">
     <h1 class="header__title">Weather PWA</h1>
-    <button id="butRefresh" class="headerButton" aria-label="Refresh" @click="updateForecasts"></button>
-    <button id="butAdd" class="headerButton" aria-label="Add" @click="toggleAddDialog(true)"></button>
+    <button class="headerButton refresh-btn" aria-label="Refresh" @click="updateForecasts"></button>
+    <button class="headerButton add-btn" aria-label="Add" @click="toggleAddDialog(true)"></button>
   </header>
 </template>
 <script>
@@ -49,12 +49,12 @@ export default {
   cursor: pointer;
 }
 
-.header #butRefresh {
+.header .refresh-btn {
   margin-right: 16px;
   background: url(../assets/images/ic_refresh_white_24px.svg) center center no-repeat;
 }
 
-.header #butAdd {
+.header .add-btn {
   background: url(../assets/images/ic_add_white_24px.svg) center center no-repeat;
 }
 

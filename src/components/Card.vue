@@ -3,7 +3,7 @@
     <div class="city-key" hidden>{{data.location.woeid}}</div>
     <div class="card-last-updated" hidden>{{data.current_observation.pubDate}}</div>
     <div class="location">{{`${data.location.city},${data.location.region}`}}</div>
-    <div class="date">{{new Date(data.current_observation.pubDate * 1000)}}</div>
+    <div class="date">{{new Date(data.current_observation.pubDate * 1000).toGMTString()}}</div>
     <div class="description">{{data.current_observation.condition.text}}</div>
     <div class="current">
       <div class="visual">
@@ -203,11 +203,6 @@ export default {
   height: 64px;
   margin-left: auto;
   margin-right: auto;
-}
-
-.weather-forecast .future .oneday .temp-high,
-.weather-forecast .future .oneday .temp-low {
-  display: inline-block;
 }
 
 .weather-forecast .future .oneday .temp-low {
