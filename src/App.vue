@@ -2,11 +2,12 @@
   <div id="app">
     <Header />
     <main class="main">
-      <Card v-for="(item, index) in visibleCards"
-        :key="index"
-        :data="item" />
+      <Card v-for="(value, key) in visibleCards"
+        :key="key"
+        :data="value" />
+      <Dialog />
     </main>
-    <Dialog />
+    <Loader />
   </div>
 </template>
 
@@ -14,6 +15,7 @@
 import Header from './components/Header.vue';
 import Dialog from './components/Dialog.vue';
 import Card from './components/Card.vue';
+import Loader from './components/Loader.vue';
 import { mapActions, mapState } from 'vuex';
 
 export default {
@@ -22,6 +24,7 @@ export default {
     Header,
     Dialog,
     Card,
+    Loader,
   },
   mounted() {
     this.initApp();
@@ -46,6 +49,7 @@ body {
   font-weight: 400;
   font-display: optional;
   color: #444;
+  -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
