@@ -47,7 +47,7 @@ export default {
 }
 </script>
 
-<style>
+<style lang="postcss">
 .dialog-container {
   background: rgba(0, 0, 0, 0.57);
   position: fixed;
@@ -59,11 +59,11 @@ export default {
   pointer-events: none;
   will-change: opacity;
   transition: opacity 0.333s cubic-bezier(0, 0, 0.21, 1);
-}
 
-.dialog-container--visible {
-  opacity: 1;
-  pointer-events: auto;
+  &--visible {
+    opacity: 1;
+    pointer-events: auto;
+  }
 }
 
 .dialog {
@@ -76,30 +76,30 @@ export default {
   top: 50%;
   transform: translate(-50%, -50%) translateY(30px);
   transition: transform 0.333s cubic-bezier(0, 0, 0.21, 1) 0.05s;
-}
 
-.dialog > div {
-  padding-left: 24px;
-  padding-right: 24px;
-}
+  > div {
+    padding-left: 24px;
+    padding-right: 24px;
+  }
 
-.dialog-title {
-  padding-top: 20px;
-  font-size: 1.25em;
-}
+  &-title {
+    padding-top: 20px;
+    font-size: 1.25em;
+  }
 
-.dialog-body {
-  padding-top: 20px;
-  padding-bottom: 24px;
-}
+  &-body {
+    padding-top: 20px;
+    padding-bottom: 24px;
 
-.dialog-body select {
-  width: 100%;
-  font-size: 2em;
-}
+    select {
+      width: 100%;
+      font-size: 2em;
+    }
+  }
 
-.dialog-buttons {
-  padding: 8px !important;
-  float: right;
+  &-buttons {
+    padding: 8px !important;
+    float: right;
+  }
 }
 </style>

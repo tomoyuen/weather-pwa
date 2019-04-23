@@ -16,7 +16,7 @@ export default {
 }
 </script>
 
-<style>
+<style lang="postcss">
 .header {
   width: 100%;
   height: 56px;
@@ -35,33 +35,33 @@ export default {
   align-content: center;
   transition: transform 0.233s cubic-bezier(0, 0, 0.21, 1) 0.1s;
   z-index: 1000;
-}
 
-.header .headerButton {
-  width: 24px;
-  height: 24px;
-  text-indent: -30000px;
-  overflow: hidden;
-  opacity: 0.54;
-  transition: opacity 0.333s cubic-bezier(0, 0, 0.21, 1);
-  border: none;
-  outline: none;
-  cursor: pointer;
-}
+  .headerButton {
+    width: 24px;
+    height: 24px;
+    text-indent: -30000px;
+    overflow: hidden;
+    opacity: 0.54;
+    transition: opacity 0.333s cubic-bezier(0, 0, 0.21, 1);
+    border: none;
+    outline: none;
+    cursor: pointer;
+  }
 
-.header .refresh-btn {
-  margin-right: 16px;
-  background: url(../assets/images/ic_refresh_white_24px.svg) center center no-repeat;
-}
+  .refresh-btn {
+    margin-right: 16px;
+    background: url(../assets/images/ic_refresh_white_24px.svg) center center no-repeat;
+  }
 
-.header .add-btn {
-  background: url(../assets/images/ic_add_white_24px.svg) center center no-repeat;
-}
+  .add-btn {
+    background: url(../assets/images/ic_add_white_24px.svg) center center no-repeat;
+  }
 
-.header__title {
-  font-weight: 400;
-  font-size: 20px;
-  margin: 0;
-  flex: 1;
+  &__title {
+    font-weight: 400;
+    font-size: 20px;
+    margin: 0;
+    flex: 1;
+  }
 }
 </style>

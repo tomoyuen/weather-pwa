@@ -139,7 +139,7 @@ export default new Vuex.Store({
       }
     },
     addForecastCard(state, data) {
-      state.visibleCards[data.location.woeid] = data;
+      state.visibleCards = { ...state.visibleCards, [data.location.woeid]: data};
       state.isLoading = false;
     }
   },

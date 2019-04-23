@@ -111,7 +111,7 @@ export default {
 }
 </script>
 
-<style>
+<style lang="postcss">
 .card {
   padding: 16px;
   position: relative;
@@ -122,160 +122,166 @@ export default {
   box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
 }
 
-.weather-forecast .location {
-  font-size: 1.75em;
-}
-
-.weather-forecast .date,
-.weather-forecast .description {
-  font-size: 1.25em;
-}
-
-.weather-forecast .current {
-  display: flex;
-}
-
-.weather-forecast .current .icon {
-  width: 128px;
-  height: 128px;
-}
-
-.weather-forecast .current .visual {
-  display: flex;
-  font-size: 4em;
-}
-
-.weather-forecast .current .visual .scale {
-  font-size: 0.5em;
-  vertical-align: super;
-}
-
-.weather-forecast .current .visual,
-.weather-forecast .current .description {
-  flex-grow: 1;
-}
-
-.weather-forecast .current .description div:before {
-  display: block;
-}
-
-.weather-forecast .current .sunset:before {
-  content: "Sunset: ";
-  color: #888;
-}
-
-.weather-forecast .current .wind:before {
-  content: "Wind: ";
-  color: #888;
-}
-
-.weather-forecast .current .sunrise:before {
-  content: "Sunrise: ";
-  color: #888;
-}
-
-.weather-forecast .current .humidity:before {
-  content: "Humidity: ";
-  color: #888;
-}
-
-.weather-forecast .current .pollen:before {
-  content: "Pollen Count: ";
-  color: #888;
-}
-
-.weather-forecast .current .pcount:before {
-  content: "Pollen ";
-  color: #888;
-}
-
-.weather-forecast .future {
-  display: flex;
-}
-
-.weather-forecast .future .oneday {
-  flex-grow: 1;
-  text-align: center;
-}
-
-.weather-forecast .future .oneday .icon {
-  width: 64px;
-  height: 64px;
-  margin-left: auto;
-  margin-right: auto;
-}
-
-.weather-forecast .future .oneday .temp-low {
-  color: #888;
-}
-
-.weather-forecast .icon {
-  background-repeat: no-repeat;
-  background-size: contain;
-}
-
-.weather-forecast .icon.clear-day {
-  background-image: url("../assets/images/clear.png");
-}
-
-.weather-forecast .icon.clear-night {
-  background-image: url("../assets/images/clear.png");
-}
-
-.weather-forecast .icon.rain {
-  background-image: url("../assets/images/rain.png");
-}
-
-.weather-forecast .icon.snow {
-  background-image: url("../assets/images/snow.png");
-}
-
-.weather-forecast .icon.sleet {
-  background-image: url("../assets/images/sleet.png");
-}
-
-.weather-forecast .icon.windy {
-  background-image: url("../assets/images/wind.png");
-}
-
-.weather-forecast .icon.fog {
-  background-image: url("../assets/images/fog.png");
-}
-
-.weather-forecast .icon.cloudy {
-  background-image: url("../assets/images/cloudy.png");
-}
-
-.weather-forecast .icon.partly-cloudy-day {
-  background-image: url("../assets/images/partly-cloudy.png");
-}
-
-.weather-forecast .icon.partly-cloudy-night {
-  background-image: url("../assets/images/partly-cloudy.png");
-}
-
-.weather-forecast .icon.thunderstorms {
-  background-image: url("../assets/images/thunderstorm.png");
-}
-
-@media (max-width: 450px) {
-  .weather-forecast .date,
-  .weather-forecast .description {
-    font-size: 0.9em;
+.weather-forecast {
+  .location {
+    font-size: 1.75em;
   }
 
-  .weather-forecast .current .icon {
-    width: 96px;
-    height: 96px;
+  .date,
+  .description {
+    font-size: 1.25em;
   }
 
-  .weather-forecast .current .visual {
-    font-size: 3em;
+  .current {
+    display: flex;
+
+    .icon {
+      width: 128px;
+      height: 128px;
+    }
+
+    .visual {
+      display: flex;
+      font-size: 4em;
+
+      .scale {
+        font-size: 0.5em;
+        vertical-align: super;
+      }
+    }
+
+    .visual,
+    .description {
+      flex-grow: 1;
+    }
+
+    .description div::before {
+      display: block;
+    }
+
+    .sunset:before {
+      content: 'Sunset: ';
+      color: #888;
+    }
+
+    .wind:before {
+      content: 'Wind: ';
+      color: #888;
+    }
+
+    .sunrise:before {
+      content: 'Sunrise: ';
+      color: #888;
+    }
+
+    .humidity:before {
+      content: 'Humidity: ';
+      color: #888;
+    }
+
+    .pollen:before {
+      content: 'Pollen Count: ';
+      color: #888;
+    }
+
+    .pcount:before {
+      content: 'Pollen ';
+      color: #888;
+    }
   }
 
-  .weather-forecast .future .oneday .icon {
-    width: 32px;
-    height: 32px;
+  .future {
+    display: flex;
+
+    .oneday {
+      flex-grow: 1;
+      text-align: center;
+
+      .icon {
+        width: 64px;
+        height: 64px;
+        margin-left: auto;
+        margin-right: auto;
+      }
+
+      .temp-low {
+        color: #888;
+      }
+    }
+  }
+
+  .icon {
+    background-repeat: no-repeat;
+    background-size: contain;
+
+    &.clear-day {
+      background-image: url(../assets/images/clear.png);
+    }
+
+    &.clear-night {
+      background-image: url(../assets/images/clear.png);
+    }
+
+    &.rain {
+      background-image: url(../assets/images/rain.png);
+    }
+
+    &.snow {
+      background-image: url(../assets/images/snow.png);
+    }
+
+    &.sleet {
+      background-image: url(../assets/images/sleet.png);
+    }
+
+    &.windy {
+      background-image: url(../assets/images/wind.png);
+    }
+
+    &.fog {
+      background-image: url(../assets/images/fog.png);
+    }
+
+    &.cloudy {
+      background-image: url(../assets/images/cloudy.png);
+    }
+
+    &.partly-cloudy-day {
+      background-image: url(../assets/images/partly-cloudy.png);
+    }
+
+    &.partly-cloudy-night {
+      background-image: url(../assets/images/partly-cloudy.png);
+    }
+
+    &.thunderstorms {
+      background-image: url(../assets/images/thunderstorm.png);
+    }
+  }
+
+  @media screen and (max-width: 450px) {
+    .date,
+    .description {
+      font-size: 0.9em;
+    }
+
+    .current {
+      .icon {
+        width: 96px;
+        height: 96px;
+      }
+
+      .visual {
+        font-size: 3em;
+      }
+    }
+
+    .future {
+      .oneday .icon {
+        width: 32px;
+        height: 32px;
+      }
+    }
   }
 }
 </style>
